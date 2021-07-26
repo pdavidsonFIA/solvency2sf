@@ -1,0 +1,5 @@
+s2model,med,ip,work,np_heal_re
+med,1.0,0.5,0.5,0.5
+ip,0.5,1.0,0.5,0.5
+work,0.5,0.5,1.0,0.5
+np_heal_re,0.5,0.5,0.5,1.0

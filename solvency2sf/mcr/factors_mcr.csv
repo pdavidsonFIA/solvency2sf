@@ -1,0 +1,17 @@
+﻿ins_sector,s2model,premium_beta,tp_alpha
+NL,mtpl,0.094,0.085
+NL,mod,0.075,0.075
+NL,mar,0.14,0.103
+NL,prop,0.075,0.094
+NL,liab,0.131,0.103
+NL,cred,0.113,0.177
+NL,lexp,0.066,0.113
+NL,ass,0.085,0.186
+NL,misc,0.122,0.186
+NL,np_cas_re,0.159,0.186
+NL,np_mar_re,0.159,0.186
+NL,np_prop_re,0.159,0.186
+H,med,0.047,0.047
+H,ip,0.085,0.131
+H,work,0.075,0.107
+H,np_heal_re,0.159,0.186
