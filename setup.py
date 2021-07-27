@@ -3,12 +3,12 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-with open('requirements.txt', 'r') as f:
-    dependencies = f.read().splitlines()
+# with open('requirements.txt', 'r') as f:
+#     dependencies = f.read().splitlines()
 
 setuptools.setup(
     name="solvency2sf",
-    version="0.0.1",
+    version="0.0.2",
     author="Peter Davidson",
     author_email="peterjd41@gmail.com",
     description="Solvency 2 Standard Formula",
@@ -27,5 +27,6 @@ setuptools.setup(
     # packages=setuptools.find_packages(where="src"),
     packages=setuptools.find_packages(include=['solvency2sf', 'solvency2sf.*']),
     python_requires=">=3.6",
-    install_requires=dependencies,
+    install_requires=['pandas>=1.0.0', 'numpy>=1.0.0'],
+    # install_requires=dependencies,
 )
