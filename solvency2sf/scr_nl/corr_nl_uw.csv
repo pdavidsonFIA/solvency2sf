@@ -1,0 +1,4 @@
+corr_scr_nl,SCR_NL_PR,SCR_NL_Cat,SCR_NL_Lapse
+SCR_NL_PR,1.0,0.25,0
+SCR_NL_Cat,0.25,1.0,0
+SCR_NL_Lapse,0.0,0.0,1
