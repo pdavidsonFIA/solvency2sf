@@ -3,7 +3,6 @@ SCR Default
 """
 
 import pandas as pd
-import math
 
 
 def scr_def(type1, type2):
@@ -43,7 +42,7 @@ def scr_def(type1, type2):
         v_intra += 1.5 * dp[j] * (1 - dp[j]) / (2.5 - dp[j]) * lgd2[j]
 
     v_type1 = v_intra + v_inter
-    sd_type1 = math.sqrt(v_type1)
+    sd_type1 = (v_type1)**0.5
     total_lgd = type1g.lgd.sum()
     sd_to_lgd = sd_type1 / total_lgd
     if sd_to_lgd <= 0.07:
@@ -56,5 +55,5 @@ def scr_def(type1, type2):
     # Article 202
     scr_def_t2 = 0.9 * type2.loc['overdue_more3m', 'balance'] + 0.15 * type2.loc['other', 'balance']
 
-    scr_def = math.sqrt(scr_def_t1 ** 2 + 1.5 * scr_def_t1 * scr_def_t2 + scr_def_t2 ** 2)
-    return scr_def
+    defx = (scr_def_t1 ** 2 + 1.5 * scr_def_t1 * scr_def_t2 + scr_def_t2 ** 2)**0.5
+    return defx
