@@ -1,4 +1,6 @@
-""" SCR Default """
+"""
+SCR Default
+"""
 
 import pandas as pd
 import math

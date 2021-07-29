@@ -3,9 +3,9 @@ include requirements.txt
 include README.md
 
 include solvency2sf\corr_bscr.csv
+include solvency2sf\corr_h_uw.csv
+include solvency2sf\corr_nl_uw.csv
 include solvency2sf\mcr\factors_mcr.csv
-include solvency2sf\scr_nl\corr_h_uw.csv
-include solvency2sf\scr_nl\corr_nl_uw.csv
 include solvency2sf\scr_nl\cat\manmade\corr_liab.csv
 include solvency2sf\scr_nl\cat\manmade\factors_liab.csv
 include solvency2sf\scr_nl\cat\manmade\other_nl.csv
