@@ -69,6 +69,7 @@ def liab(liab_vol):
     div_net = liab_div_loss(gl)
     return div_net
 
+
 def example_reinsurance(
         scen_loss,
         programs=pd.DataFrame.from_dict({'p1': {'xol_xs': 10, 'xol_limit': 20, 'reinstatement': 0.5, 'qs': 0.6},
@@ -102,7 +103,6 @@ def example_reinsurance(
     gross.net_loss = gross.net_loss.fillna(gross.gross_loss)
     gross = gross.set_index(['hazard', 'scenario', 'loss_event', 'country_isocode'])[['gross_loss', 'net_loss']].sort_index()
     return gross['net_loss']
-
 
 
 def fire(max_prop_sum_ins: float):
