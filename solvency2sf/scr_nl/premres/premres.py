@@ -1,6 +1,9 @@
 """
 This module calculates the premium and reserve risk
 
+Directive 2015/35
+Article 115-117
+
 Test data:
 import pandas as pd
 dict_data = {
@@ -67,6 +70,7 @@ def get_factors(ins_sector='NL', ri_basis='net'):
      Returns pandas dataframe indexed by s2model
     """
     fldr = pathlib.Path(__file__).parent.resolve()
+
     factors = pd.read_csv(os.path.join(fldr, 'factors.csv'))
     factors = factors.loc[factors.ins_sector == ins_sector]
     if ri_basis == 'net':
