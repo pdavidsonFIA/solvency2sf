@@ -59,7 +59,7 @@ net = example_reinsurance(gross)
 
 from scr_nl.cat.natcat_eur.natcat_eur import diversify_between_countries, natcat_agg
 gross_x = diversify_between_countries(gross)
-net_x =diversify_between_countries(net)
+net_x = diversify_between_countries(net)
 natcat = natcat_agg(gross_x, net_x)
 
 """
@@ -223,19 +223,19 @@ def scenario_losses(spec_loss):
     return losses.rename('gross_loss')
 
 
-def example_reinsurance(
+def natcat_reinsurance(
         scen_loss,
         programs=pd.DataFrame.from_dict({'p1': {'xol_xs': 10, 'xol_limit': 20, 'reinstatement': 0.5, 'qs': 0.6},
                                          'p2': {'xol_xs': 5, 'xol_limit': 10, 'reinstatement': 0.25, 'qs': 0.8}},
                                         'index'),
-        program_covers=pd.DataFrame.from_dict({'DE': 'p1', 'CH': 'p1', 'PL': 'p2'}, 'index', columns=['prog_id'])
+        covers=pd.DataFrame.from_dict({'DE': 'p1', 'CH': 'p1', 'PL': 'p2'}, 'index', columns=['prog_id'])
 ):
     """
     Simplified example to produce net losses for each county allowing for multi-country reinsurance programs
     """
 
     gross = scen_loss.to_frame()
-    gross = gross.merge(program_covers,how='left', left_on='country_isocode', right_index=True)
+    gross = gross.merge(covers,how='left', left_on='country_isocode', right_index=True)
     prog_loss = gross.groupby(['hazard', 'scenario', 'loss_event', 'prog_id']).sum()
     prog_loss = prog_loss.merge(programs, how='left', left_on='prog_id', right_index=True)
 
