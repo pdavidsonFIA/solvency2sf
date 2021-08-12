@@ -11,7 +11,7 @@ import numpy as np
 
 def load_corrmat(module_name: str):
     fldr = pathlib.Path(__file__).parent.resolve()
-    corr = np.genfromtxt(os.path.join(fldr, 'corr_' + module_name + '.csv'), skip_header=1)
+    corr = np.genfromtxt(os.path.join(fldr, 'corr_' + module_name + '.csv'), skip_header=1, delimiter=',')
     # Delete the index col:
     corr = np.delete(corr, 0, axis=1)
     return corr
