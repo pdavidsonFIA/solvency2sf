@@ -64,13 +64,13 @@ def liab(liab_vol, programs, covers):
 
     div_gross = liab_div_loss(gl)
 
-    net_losses = manmade_reinsurance(gross_losses, programs, covers)
+    net_losses = manmade_liab_reinsurance(gross_losses, programs, covers)
     nl = net_losses.groupby(by='grp_liab').sum().reindex(range(1, 6)).rename('loss').fillna(0).array
     div_net = liab_div_loss(nl)
-    return pd.DataFrame.from_dict({'gross_loss': div_gross, 'net_loss': div_net}, orient='index', columns=['scr_liab']).T
+    return pd.DataFrame.from_dict({'gross_loss': div_gross, 'net_loss': div_net}, orient='index', columns=['manmade_liab']).T
 
 
-def manmade_reinsurance(
+def manmade_liab_reinsurance(
         gross_losses,
         programs=pd.DataFrame.from_dict({'p1': {'xol_xs': 10, 'xol_limit': 20, 'reinstatement': 0.5, 'qs': 0.6},
                                          'p2': {'xol_xs': 5, 'xol_limit': 10, 'reinstatement': 0.25, 'qs': 0.8}},
@@ -106,29 +106,74 @@ def manmade_reinsurance(
     return gross['net_loss']
 
 
-def fire(max_prop_sum_ins: float):
+def fire(max_prop_sum_ins: pd.Series, programs, covers):
     """
     Man-made Fire
     """
-    gcr = max_prop_sum_ins
-    # TODO: apply mitigation
-    ncr = gcr
-    return ncr
+    ncr = manmade_re(max_prop_sum_ins, programs, covers)
+    country_with_max = ncr.idxmax()
+    gross = max_prop_sum_ins.loc[country_with_max]
+    net = ncr.max()
+    return pd.DataFrame.from_dict({'gross_loss': gross, 'net_loss': net}, orient='index', columns=['manmade_fire']).T
 
 
-def motor(vehicles_insured: dict):
+def motor(vehicles_insured: pd.DataFrame, programs, covers):
     """
     Man-made motor
 
     Example:
+        # TODO: update example
         vehicles_insured = {'u24m': 50, 'o24m':50}
     """
-    gcr = 50000 * max(120,
-                      (vehicles_insured.get('o24m') +
-                              0.05 * vehicles_insured.get('u24m') +
-                              0.95 * min(vehicles_insured.get('u24m'), 20000))**0.5
+    motor_scr = lambda x: 50000 * max(120,
+                      (x.lim_over_24m +
+                              0.05 * x.lim_below_24m +
+                              0.95 * min(x.lim_below_24m, 20000))**0.5
                       )
+    gross_total = motor_scr(vehicles_insured.sum())
 
-    # TODO: apply mitigation
-    ncr = gcr
-    return ncr
+    # Allocating gross to country:
+    # TODO: refine this allcoation mechanism
+    loss_by_country = vehicles_insured.sum(axis=1).rename('nveh').to_frame()
+    loss_by_country['tot'] = loss_by_country['nveh'].sum()
+    loss_by_country['pc_of_tot'] = loss_by_country.nveh/loss_by_country.tot
+    loss_by_country['gross_loss'] = loss_by_country.pc_of_tot * gross_total
+    gross = loss_by_country['gross_loss']
+
+    net = manmade_re(gross, programs, covers)
+    return pd.DataFrame.from_dict({'gross_loss': gross.sum(), 'net_loss': net.sum()}, orient='index', columns=['manmade_motor']).T
+
+def manmade_re(
+        gross_losses,
+        programs=pd.DataFrame.from_dict({'p1': {'xol_xs': 10, 'xol_limit': 20, 'reinstatement': 0.5, 'qs': 0.6},
+                                         'p2': {'xol_xs': 5, 'xol_limit': 10, 'reinstatement': 0.25, 'qs': 0.8}},
+                                        'index'),
+        covers=pd.DataFrame.from_dict({'DE': 'p1', 'CH': 'p1', 'PL': 'p2'}, 'index', columns=['prog_id'])
+):
+    """
+    Simplified example to produce net losses for each county allowing for multi-country reinsurance programs
+    """
+
+    gross = gross_losses.reset_index()
+    gross = gross.merge(covers, how='left', left_on='country', right_index=True)
+    prog_loss = gross.groupby(['prog_id']).sum()
+    prog_loss = prog_loss.merge(programs, how='left', left_on='prog_id', right_index=True)
+
+    prog_loss['xol_rec'] = prog_loss.apply(lambda x:
+                                           -min(x.xol_limit - x.xol_xs, max(0, x.gross_loss - x.xol_xs)),
+                                           axis=1)
+    # TODO: verify logic for reinstatement premiums on manmade claims
+    prog_loss['reins'] = - prog_loss.xol_rec / (prog_loss.xol_limit - prog_loss.xol_xs) * prog_loss.reinstatement
+    prog_loss['net_xol'] = prog_loss[['gross_loss', 'xol_rec', 'reins']].sum(axis=1)
+    prog_loss['qs_rec'] = -prog_loss.net_xol * prog_loss.qs
+    prog_loss['net_loss'] = prog_loss['net_xol'] + prog_loss['qs_rec']
+    prog_loss = prog_loss[['net_loss']]
+
+    gross['prog_tot'] = gross[['gross_loss', 'prog_id']].groupby(by=['prog_id']).transform(sum)
+    gross['pc_of_prog'] = gross.gross_loss/gross.prog_tot
+    gross = gross.reset_index().merge(prog_loss, how='left', on=['prog_id'])
+    gross.net_loss = gross.net_loss * gross.pc_of_prog
+    # Filling for countries without a reinsurance program:
+    gross.net_loss = gross.net_loss.fillna(gross.gross_loss)
+    gross = gross.set_index(['country'])[['gross_loss', 'net_loss']].sort_index()
+    return gross['net_loss']
