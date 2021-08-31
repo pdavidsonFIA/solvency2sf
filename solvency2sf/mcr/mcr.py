@@ -73,7 +73,8 @@ def mcr(
         tp_nl_net: pd.Series,
         tp_l: pd.Series,
         car_l: float,
-        scr: float
+        scr: float,
+        debug_output={}
 ):
     """
     This function calculate:
@@ -112,7 +113,17 @@ def mcr(
     mcr = np.maximum(mcr_combined, amcr)
     early_warning = ewi_l * mcr_linear_l + ewi_nl * mcr_linear_nl
 
-    # TODO: add QRT output
-    # df = pd.concat((mcr, mcr_linear_nl), axis=1)
-    # df.columns = ['mcr', 'mcr_linear_nl']
-    return mcr
+    mcr_debug = {
+            's28_01_01_02': df,
+            's28_01_01_05': pd.DataFrame.from_dict({
+                'mcr_linear': mcr_linear,
+                'scr': scr,
+                'mcr_cap': mcr_cap,
+                'mcr_floor': mcr_floor,
+                'mcr_combined': mcr_combined,
+                'amcr': amcr,
+                'mcr': mcr
+            }, orient='index', columns=['C0070'])
+        }
+    debug_output['mcr'] = mcr_debug
+    return mcr, debug_output
