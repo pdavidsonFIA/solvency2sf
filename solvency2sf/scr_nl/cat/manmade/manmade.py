@@ -86,8 +86,10 @@ def manmade_liab_reinsurance(
     prog_loss = gross.groupby(['prog_id']).sum()
     prog_loss = prog_loss.merge(programs, how='left', left_on='prog_id', right_index=True)
 
+    # Max 0 as can't have a negative recovery -> required in case strange parameters input
     prog_loss['xol_rec'] = prog_loss.apply(lambda x:
-                                           -min(x.xol_limit - x.xol_xs, max(0, x.gross_loss - x.xol_xs)),
+                                           -min(max(0, x.xol_limit - x.xol_xs),
+                                                max(0, x.gross_loss - x.xol_xs)),
                                            axis=1)
     # TODO: verify logic for reinstatement premiums on liability claims
     prog_loss['reins'] = - prog_loss.xol_rec / (prog_loss.xol_limit - prog_loss.xol_xs) * prog_loss.reinstatement
@@ -159,8 +161,10 @@ def manmade_re(
     prog_loss = gross.groupby(['prog_id']).sum()
     prog_loss = prog_loss.merge(programs, how='left', left_on='prog_id', right_index=True)
 
+    # Max 0 as can't have a negative recovery -> required in case strange parameters input
     prog_loss['xol_rec'] = prog_loss.apply(lambda x:
-                                           -min(x.xol_limit - x.xol_xs, max(0, x.gross_loss - x.xol_xs)),
+                                           -min(max(0, x.xol_limit - x.xol_xs),
+                                                max(0, x.gross_loss - x.xol_xs)),
                                            axis=1)
     # TODO: verify logic for reinstatement premiums on manmade claims
     prog_loss['reins'] = - prog_loss.xol_rec / (prog_loss.xol_limit - prog_loss.xol_xs) * prog_loss.reinstatement
