@@ -6,6 +6,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
 with open('requirements.txt', 'r') as f:
     dependencies = f.read().splitlines()
 
+data_path = ''
+
 setuptools.setup(
     name="solvency2sf",
     version="0.0.13",
@@ -31,6 +33,8 @@ setuptools.setup(
     python_requires=">=3.6",
     # install_requires=['pandas>=1.0.0', 'numpy>=1.0.0'],
     include_package_data=True,
-    package_data={'data': ['*.csv']},
+    # package_data={'data': ['*.csv']},
+    package_data={
+        'data': [data_path + item for item in listdir('solvency2sf{}'.format(data_path))]},
     install_requires=dependencies,
 )
