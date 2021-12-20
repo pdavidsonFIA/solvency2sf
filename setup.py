@@ -11,7 +11,7 @@ data_path = ''
 
 setuptools.setup(
     name="solvency2sf",
-    version="0.0.15",
+    version="0.0.16",
     author="Peter Davidson",
     author_email="peterjd41@gmail.com",
     description="Solvency 2 Standard Formula",
@@ -31,7 +31,7 @@ setuptools.setup(
     # package_dir={"": "src"},
     # packages=setuptools.find_packages(where="src"),
     packages=setuptools.find_packages(include=['solvency2sf', 'solvency2sf.*']),
-    python_requires=">=3.6",
+    python_requires=3.8,
     # install_requires=['pandas>=1.0.0', 'numpy>=1.0.0'],
     include_package_data=True,
     package_data={'data': ['solvency2sf/*.csv']},
