@@ -31,5 +31,6 @@ setuptools.setup(
     python_requires=">=3.6",
     # install_requires=['pandas>=1.0.0', 'numpy>=1.0.0'],
     include_package_data=True,
+     package_data={'data': ['*.csv']]},
     install_requires=dependencies,
 )
