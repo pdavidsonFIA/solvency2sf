@@ -11,7 +11,7 @@ data_path = ''
 
 setuptools.setup(
     name="solvency2sf",
-    version="0.0.18",
+    version="0.0.19",
     author="Peter Davidson",
     author_email="peterjd41@gmail.com",
     description="Solvency 2 Standard Formula",
@@ -33,8 +33,8 @@ setuptools.setup(
     packages=setuptools.find_packages(include=['solvency2sf', 'solvency2sf.*']),
     python_requires='>=3.6',
     # install_requires=['pandas>=1.0.0', 'numpy>=1.0.0'],
-    include_package_data=True,
-    package_data={'data': ['solvency2sf/corr_h_uw.csv']},
+    #include_package_data=True,
+    # package_data={'data': ['solvency2sf/corr_h_uw.csv']},
     #package_data={'data': [data_path + item for item in listdir('solvency2sf{}'.format(data_path))]},
     install_requires=dependencies,
 )
