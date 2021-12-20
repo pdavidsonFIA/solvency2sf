@@ -2,4 +2,4 @@ include LICENSE
 include requirements.txt
 include README.md
 
-include solvency2sf/*.csv
+recursive-include solvency2sf/*.csv
