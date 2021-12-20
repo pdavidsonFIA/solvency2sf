@@ -1,5 +1,5 @@
 import setuptools
-from os import listdir
+#from os import listdir
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -33,7 +33,7 @@ setuptools.setup(
     packages=setuptools.find_packages(include=['solvency2sf', 'solvency2sf.*']),
     python_requires=3.8,
     # install_requires=['pandas>=1.0.0', 'numpy>=1.0.0'],
-    include_package_data=True,
+    # include_package_data=True,
     package_data={'data': ['solvency2sf/*.csv']},
     #package_data={'data': [data_path + item for item in listdir('solvency2sf{}'.format(data_path))]},
     install_requires=dependencies,
