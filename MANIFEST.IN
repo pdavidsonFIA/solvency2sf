@@ -2,7 +2,7 @@ include LICENSE
 include requirements.txt
 include README.md
 
-include solvency2sf\corr_bscr.csv
+include solvency2sf/corr_bscr.csv
 include solvency2sf\corr_h_uw.csv
 include solvency2sf\corr_nl_uw.csv
 include solvency2sf\mcr\factors_mcr.csv
