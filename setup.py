@@ -11,7 +11,7 @@ data_path = ''
 
 setuptools.setup(
     name="solvency2sf",
-    version="0.0.20",
+    version="0.0.21",
     author="Peter Davidson",
     author_email="peterjd41@gmail.com",
     description="Solvency 2 Standard Formula",
