@@ -33,8 +33,8 @@ setuptools.setup(
     packages=setuptools.find_packages(include=['solvency2sf', 'solvency2sf.*']),
     python_requires='==3.8',
     # install_requires=['pandas>=1.0.0', 'numpy>=1.0.0'],
-    # include_package_data=True,
-    package_data={'data': ['solvency2sf/*.csv']},
+    include_package_data=True,
+    package_data={'data': ['solvency2sf/corr_h_uw.csv']},
     #package_data={'data': [data_path + item for item in listdir('solvency2sf{}'.format(data_path))]},
     install_requires=dependencies,
 )
