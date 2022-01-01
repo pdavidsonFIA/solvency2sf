@@ -36,3 +36,18 @@ def scr_total(
 ):
     """ This function simply adds the SCR_Op to the BSCR """
     return bscr + scr_op
+
+
+def scr_alloc(scr_submodules: np.array, module_name: str):
+    """
+    Euler allocation of SCR to sub-modules
+    Allocation of risk modules according to the principles in this paper
+    https://www.ivass.it/pubblicazioni-e-statistiche/pubblicazioni/att-sem-conv/2017/conf-131407/On-a-capital-allocation-principle-coherent.pdf
+    """
+
+    aggr = scr_agg(scr_submodules, module_name)
+
+    corr = load_corrmat(module_name)
+    scr_alloc = np.matmul(scr_submodules.T, corr) * scr_submodules / aggr
+
+    return scr_alloc
