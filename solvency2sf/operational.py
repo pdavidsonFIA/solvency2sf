@@ -31,16 +31,15 @@ def op_scr(
     - BSCR
     """
 
-    op_premiums = \
-        0.04 * (gep.at['life_all', 'gep_last12m'] - gep.at['life_ul', 'gep_last12m'])
-    +        0.04 * max(0., (gep.at['life_all', 'gep_last12m'] - gep.at['life_ul', 'gep_last12m']) -
-                        1.2 * (gep.at['life_all', 'gep_prior12m'] - gep.at['life_ul', 'gep_prior12m']))
-    + 0.03 * gep.at['nl', 'gep_last12m'] + 0.03 * max(0.,
-                                                      gep.at['nl', 'gep_last12m'] - 1.2 * gep.at['nl', 'gep_prior12m'])
-    op_provisions = 0.0045 * max(0.,
-                                 gross_tp.at['life_all'] - gross_tp.at['life_ul']) + 0.03 * max(0., gross_tp.at['nl'])
+    op_premiums = 0.04 * (gep.at['life_all', 'gep_last12m'] - gep.at['life_ul', 'gep_last12m']) \
+                  + 0.04 * max(0., (gep.at['life_all', 'gep_last12m'] - gep.at['life_ul', 'gep_last12m'])
+                               - 1.2 * (gep.at['life_all', 'gep_prior12m'] - gep.at['life_ul', 'gep_prior12m'])) \
+                  + 0.03 * gep.at['nl', 'gep_last12m'] \
+                  + 0.03 * max(0., gep.at['nl', 'gep_last12m'] - 1.2 * gep.at['nl', 'gep_prior12m'])
+    op_provisions = 0.0045 * max(0., gross_tp.at['life_all'] - gross_tp.at['life_ul']) \
+                    + 0.03 * max(0., gross_tp.at['nl'])
     op = max(op_premiums, op_provisions)
 
-    scr_op = min(op, 0.3*bscr) + 0.25*ul_exp
+    scr_op = min(op, 0.3 * bscr) + 0.25 * ul_exp
 
     return scr_op, op
