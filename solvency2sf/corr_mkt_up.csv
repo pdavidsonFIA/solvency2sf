@@ -1,0 +1,7 @@
+﻿corr_scr_mkt_up,SCR_Mkt_Int,SCR_Mkt_Eq,SCR_Mkr_Prop,SCR_Mkt_Spr,SCR_Mkt_Conc,SCR_Mkt_FX
+SCR_Mkt_Int,1,0,0,0,0,0.25
+SCR_Mkt_Eq,0,1,0.75,0.75,0,0.25
+SCR_Mkr_Prop,0,0.75,1,0.5,0,0.25
+SCR_Mkt_Spr,0,0.75,0.5,1,0,0.25
+SCR_Mkt_Conc,0,0,0,0,1,0
+SCR_Mkt_FX,0.25,0.25,0.25,0.25,0,1
