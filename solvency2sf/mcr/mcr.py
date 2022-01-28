@@ -101,6 +101,8 @@ def mcr(
     mcr_linear_nl = mcr_tp_nl + mcr_prem_nl
 
     # MCR Life: TP life grouped accoring to MCR definitions:
+    # Floor the TP to zero
+    tp_l = tp_l.apply(lambda x: np.maximum(x, 0))
     tp_life_factors = pd.Series({1: 0.037, 2: -0.052, 3: 0.007, 4: 0.021}, name='factor_l')
     df_life = pd.concat((tp_l, tp_life_factors), axis=1)
     mcr_linear_l = df_life.product(axis=1).sum() + 0.0007 * car_l
