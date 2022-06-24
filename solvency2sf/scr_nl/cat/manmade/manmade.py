@@ -60,12 +60,12 @@ def liab(liab_vol, programs, covers):
     gross_losses = liab_gross_losses(liab_vol)
 
     # Need full index for each group to apply correlation:
-    gl = gross_losses['gross_loss'].groupby(by=['grp_liab']).sum().reindex(range(1,6)).rename('loss').fillna(0).array
+    gl = np.array(gross_losses['gross_loss'].groupby(by=['grp_liab']).sum().reindex(range(1, 6)).rename('loss').fillna(0))
 
     div_gross = liab_div_loss(gl)
 
     net_losses = manmade_liab_reinsurance(gross_losses, programs, covers)
-    nl = net_losses.groupby(by='grp_liab').sum().reindex(range(1, 6)).rename('loss').fillna(0).array
+    nl = np.array(net_losses.groupby(by='grp_liab').sum().reindex(range(1, 6)).rename('loss').fillna(0))
     div_net = liab_div_loss(nl)
     return pd.DataFrame.from_dict({'gross_loss': div_gross, 'net_loss': div_net}, orient='index', columns=['manmade_liab']).T
 
