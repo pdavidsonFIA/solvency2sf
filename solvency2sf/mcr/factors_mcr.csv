@@ -11,7 +11,7 @@ NL,misc,0.122,0.186
 NL,np_cas_re,0.159,0.186
 NL,np_mar_re,0.159,0.186
 NL,np_prop_re,0.159,0.186
-H,med,0.047,0.047
-H,ip,0.085,0.131
-H,work,0.075,0.107
-H,np_heal_re,0.159,0.186
+H_NSLT,med,0.047,0.047
+H_NSLT,ip,0.085,0.131
+H_NSLT,work,0.075,0.107
+H_NSLT,np_heal_re,0.159,0.186

@@ -9,7 +9,7 @@ import pathlib
 import numpy as np
 
 
-def load_corrmat(module_name: str):
+def load_corrmat(module_name: str) -> np.array:
     fldr = pathlib.Path(__file__).parent.resolve()
     corr = np.genfromtxt(os.path.join(fldr, 'corr_' + module_name + '.csv'), skip_header=1, delimiter=',')
     # Delete the index col:
@@ -48,6 +48,6 @@ def scr_alloc(scr_submodules: np.array, module_name: str):
     aggr = scr_agg(scr_submodules, module_name)
 
     corr = load_corrmat(module_name)
-    scr_alloc = np.matmul(scr_submodules.T, corr) * scr_submodules / aggr
+    alloc = np.matmul(scr_submodules.T, corr) * scr_submodules / aggr
 
-    return scr_alloc
+    return alloc

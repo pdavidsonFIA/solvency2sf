@@ -58,7 +58,7 @@ import numpy as np
 def get_factors():
     """
     Reads the factors used in the MCR calculation
-     # - H or NL
+     # - H_NSLT or NL
      Returns pandas dataframe indexed by s2model
     """
     fldr = pathlib.Path(__file__).parent.resolve()

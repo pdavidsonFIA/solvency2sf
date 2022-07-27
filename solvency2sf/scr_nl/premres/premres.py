@@ -66,7 +66,7 @@ def get_factors(ins_sector='NL', ri_basis='net'):
     """
     Reads the standard deviation parameters for PR risk
      - gross or net,
-     - H or NL
+     - H_NSLT or NL
      Returns pandas dataframe indexed by s2model
     """
     fldr = pathlib.Path(__file__).parent.resolve()
@@ -84,11 +84,11 @@ def get_factors(ins_sector='NL', ri_basis='net'):
 def get_corr(ins_sector='NL'):
     """
     Reads the correlation matrix for PR risk
-     - H or NL
+     - H_NSLT or NL
      Returns pandas dataframe indexed by s2model
     """
     fldr = pathlib.Path(__file__).parent.resolve()
-    corr = pd.read_csv(os.path.join(fldr, 'corr_' + ins_sector.lower() + '.csv'), index_col=0)
+    corr = pd.read_csv(os.path.join(fldr, 'corr_' + ins_sector.lower() + '_pr.csv'), index_col=0)
     return corr
 
 
