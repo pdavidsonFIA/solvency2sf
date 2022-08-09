@@ -5,6 +5,18 @@ SCR Default
 import pandas as pd
 
 
+def scr_def(type1, type2):
+    # Directive 2015/35
+
+    # Article 201
+    scr_default_t1 = scr_def_t1(type1)
+    # Article 202
+    scr_default_t2 = scr_def_t2(type2)
+    # Article 189.1
+    scr_default = scr_def_agg(scr_default_t1, scr_default_t2)
+
+    return scr_default, scr_default_t1, scr_default_t2
+
 def scr_def_t1(type1):
     # Directive 2015/35
     # Floor the values at 0 i.e. no negative balances:
@@ -72,16 +84,4 @@ def scr_def_agg(scr_def_t1, scr_def_t2):
     # Article 189.1
     scr_def = (scr_def_t1 ** 2 + 1.5 * scr_def_t1 * scr_def_t2 + scr_def_t2 ** 2)**0.5
     return scr_def
-
-def scr_def(type1, type2):
-    # Directive 2015/35
-
-    # Article 201
-    scr_default_t1 = scr_def_t1(type1)
-    # Article 202
-    scr_default_t2 = scr_def_t2(type2)
-    # Article 189.1
-    scr_default = scr_def_agg(scr_default_t1, scr_default_t2)
-
-    return scr_default, scr_default_t1, scr_default_t2
 
