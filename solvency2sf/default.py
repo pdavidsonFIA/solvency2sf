@@ -5,7 +5,7 @@ SCR Default
 import pandas as pd
 
 
-def scr_def(type1, type2):
+def scr_def_t1(type1):
     # Directive 2015/35
     # Floor the values at 0 i.e. no negative balances:
     type1.balance = type1.balance.apply(lambda x: max(x, 0))
@@ -41,19 +41,47 @@ def scr_def(type1, type2):
     for j in range(len(type1g)):
         v_intra += 1.5 * dp[j] * (1 - dp[j]) / (2.5 - dp[j]) * lgd2[j]
 
+    # Article 201
     v_type1 = v_intra + v_inter
+    # Article 200.4
     sd_type1 = (v_type1)**0.5
     total_lgd = type1g.lgd.sum()
+
+    # Article 200
     sd_to_lgd = sd_type1 / total_lgd
+    # Article 200.1
     if sd_to_lgd <= 0.07:
         scr_def_t1 = 3 * sd_type1
+    # Article 200.2
     elif 0.07 < sd_to_lgd <= 0.2:
         scr_def_t1 = 5 * sd_type1
+    # Article 200.3
     else:
         scr_def_t1 = total_lgd
 
+    return scr_def_t1
+
+def scr_def_t2(type2):
+    # Directive 2015/35
     # Article 202
     scr_def_t2 = 0.9 * type2.loc['overdue_more3m', 'balance'] + 0.15 * type2.loc['other', 'balance']
+    return scr_def_t2
 
-    defx = (scr_def_t1 ** 2 + 1.5 * scr_def_t1 * scr_def_t2 + scr_def_t2 ** 2)**0.5
-    return defx
+def scr_def_agg(scr_def_t1, scr_def_t2):
+    # Directive 2015/35
+    # Article 189.1
+    scr_def = (scr_def_t1 ** 2 + 1.5 * scr_def_t1 * scr_def_t2 + scr_def_t2 ** 2)**0.5
+    return scr_def
+
+def scr_def(type1, type2):
+    # Directive 2015/35
+
+    # Article 201
+    scr_default_t1 = scr_def_t1(type1)
+    # Article 202
+    scr_default_t2 = scr_def_t2(type2)
+    # Article 189.1
+    scr_default = scr_def_agg(scr_default_t1, scr_default_t2)
+
+    return scr_default, scr_default_t1, scr_default_t2
+
