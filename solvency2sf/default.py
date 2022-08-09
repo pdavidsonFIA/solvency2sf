@@ -8,7 +8,7 @@ import pandas as pd
 def scr_def(type1, type2):
     # Directive 2015/35
 
-    # Article 201
+    # Article 200 & 201
     scr_default_t1 = scr_def_t1(type1)
     # Article 202
     scr_default_t2 = scr_def_t2(type2)
