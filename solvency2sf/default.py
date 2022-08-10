@@ -1,5 +1,31 @@
 """
 SCR Default
+
+Test data:
+from s2sf_tests.dummy_data import Dummy_Data
+dd = Dummy_Data()
+
+## test type 1 default SCR
+type_1 = dd.type_1.copy()
+scr_default_t1 = scr_def_t1(type_1)
+scr_default_t1
+# comparison with expected
+scr_default_t1 == dd.scr_def_t1_expected
+
+## test type 2 default SCR
+type_2 = dd.type_2.copy()
+scr_default_t2 = scr_def_t2(type_2)
+scr_default_t2
+# comparison with expected
+scr_default_t2 == dd.scr_def_t2_expected
+
+## test of aggregation
+scr_def = scr_def_agg(scr_default_t1, scr_default_t2)
+scr_def
+# comparison with expected
+scr_def == dd.scr_def_expected
+
+
 """
 
 import pandas as pd
