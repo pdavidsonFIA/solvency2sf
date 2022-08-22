@@ -89,25 +89,25 @@ def scr_def_t1(type1):
     sd_to_lgd = sd_type1 / total_lgd
     # Article 200.1
     if sd_to_lgd <= 0.07:
-        scr_def_t1 = 3 * sd_type1
+        t1 = 3 * sd_type1
     # Article 200.2
     elif 0.07 < sd_to_lgd <= 0.2:
-        scr_def_t1 = 5 * sd_type1
+        t1 = 5 * sd_type1
     # Article 200.3
     else:
-        scr_def_t1 = total_lgd
+        t1 = total_lgd
 
-    return scr_def_t1
+    return t1
 
 def scr_def_t2(type2):
     # Directive 2015/35
     # Article 202
-    scr_def_t2 = 0.9 * type2.loc['overdue_more3m', 'balance'] + 0.15 * type2.loc['other', 'balance']
-    return scr_def_t2
+    t2 = 0.9 * type2.loc['overdue_more3m', 'balance'] + 0.15 * type2.loc['other', 'balance']
+    return t2
 
 def scr_def_agg(scr_def_t1, scr_def_t2):
     # Directive 2015/35
     # Article 189.1
-    scr_def = (scr_def_t1 ** 2 + 1.5 * scr_def_t1 * scr_def_t2 + scr_def_t2 ** 2)**0.5
-    return scr_def
+    default = (scr_def_t1 ** 2 + 1.5 * scr_def_t1 * scr_def_t2 + scr_def_t2 ** 2)**0.5
+    return default
 
