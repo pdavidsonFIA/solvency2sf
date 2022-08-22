@@ -8,8 +8,8 @@ SCR NL Cat Man-Made:
 
 
 Test data:
-from tests.dummy_data import Dummy_Data as DD
-dd = DD()
+from s2sf_tests.dummy_data import Dummy_Data
+dd = Dummy_Data()
 dd = Dummy_Data()
 liab_vol = dd.liab_vol.copy()
 
