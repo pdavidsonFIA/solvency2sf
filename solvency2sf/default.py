@@ -43,6 +43,7 @@ def scr_def(type1, type2):
 
     return scr_default, scr_default_t1, scr_default_t2
 
+
 def scr_def_t1(type1):
     # Directive 2015/35
     # Floor the values at 0 i.e. no negative balances:
@@ -82,7 +83,7 @@ def scr_def_t1(type1):
     # Article 201
     v_type1 = v_intra + v_inter
     # Article 200.4
-    sd_type1 = (v_type1)**0.5
+    sd_type1 = (v_type1) ** 0.5
     total_lgd = type1g.lgd.sum()
 
     # Article 200
@@ -96,8 +97,8 @@ def scr_def_t1(type1):
     # Article 200.3
     else:
         t1 = total_lgd
-
     return t1
+
 
 def scr_def_t2(type2):
     # Directive 2015/35
@@ -105,9 +106,9 @@ def scr_def_t2(type2):
     t2 = 0.9 * type2.loc['overdue_more3m', 'balance'] + 0.15 * type2.loc['other', 'balance']
     return t2
 
+
 def scr_def_agg(scr_def_t1, scr_def_t2):
     # Directive 2015/35
     # Article 189.1
-    default = (scr_def_t1 ** 2 + 1.5 * scr_def_t1 * scr_def_t2 + scr_def_t2 ** 2)**0.5
+    default = (scr_def_t1 ** 2 + 1.5 * scr_def_t1 * scr_def_t2 + scr_def_t2 ** 2) ** 0.5
     return default
-
