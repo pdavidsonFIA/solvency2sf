@@ -138,12 +138,7 @@ def scr_nl_premres(
     scr = 3 * vol * sd
 
     if qrt_output:
-    # TODO: Add qrt output
-        qrt = {
-            'vm_tot1'
-            'vm_tot2'
-        }
-
-        return (scr, qrt)
+        # TODO: Add qrt output
+        return (scr, pr, sd)
     else:
         return scr
