@@ -95,7 +95,8 @@ def get_corr(ins_sector='NL'):
 def scr_nl_premres(
         volume_measures: pd.DataFrame,
         ins_sector='NL',
-        ri_basis='net'
+        ri_basis='net',
+        qrt_output=False
 ):
     """
     SCR NL Premium and reserve risk
@@ -136,5 +137,13 @@ def scr_nl_premres(
 
     scr = 3 * vol * sd
 
+    if qrt_output:
     # TODO: Add qrt output
-    return scr
+        qrt = {
+            'vm_tot1'
+            'vm_tot2'
+        }
+
+        return (scr, qrt)
+    else:
+        return scr
