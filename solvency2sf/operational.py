@@ -42,4 +42,4 @@ def op_scr(
 
     scr_op = min(op, 0.3 * bscr) + 0.25 * ul_exp
 
-    return scr_op, op
+    return scr_op, op, op_provisions, op_premiums
