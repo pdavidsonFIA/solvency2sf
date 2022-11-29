@@ -35,13 +35,13 @@ def scr_def(type1, type2):
     # Directive 2015/35
 
     # Article 200 & 201
-    scr_default_t1 = scr_def_t1(type1)
+    scr_default_t1, type1_details = scr_def_t1(type1)
     # Article 202
     scr_default_t2 = scr_def_t2(type2)
     # Article 189.1
     scr_default = scr_def_agg(scr_default_t1, scr_default_t2)
 
-    return scr_default, scr_default_t1, scr_default_t2
+    return scr_default, scr_default_t1, scr_default_t2, type1_details
 
 
 def scr_def_t1(type1):
@@ -66,6 +66,7 @@ def scr_def_t1(type1):
     default_probs = pd.DataFrame([0.00002, 0.0001, 0.0005, 0.0024, 0.012, 0.042, 0.042], index=range(7),
                                  columns=['prob_def'])
     type1g = type1g.merge(default_probs, how='left', left_index=True, right_index=True)
+    type1 = type1.merge(default_probs, how='left', left_on='rating', right_index=True)
 
     v_inter = 0
     lgd = type1g.lgd.array
@@ -97,7 +98,8 @@ def scr_def_t1(type1):
     # Article 200.3
     else:
         t1 = total_lgd
-    return t1
+    type1_details=type1
+    return t1,type1_details
 
 
 def scr_def_t2(type2):
