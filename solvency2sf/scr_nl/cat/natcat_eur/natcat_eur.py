@@ -257,7 +257,7 @@ def natcat_reinsurance(
     gross.net_loss = gross.net_loss * gross.pc_of_prog
     # Filling for countries without a reinsurance program:
     gross.net_loss = gross.net_loss.fillna(gross.gross_loss)
-    gross = gross.set_index(['hazard', 'scenario', 'loss_event', 'country_isocode'])[['gross_loss', 'net_loss']].sort_index()
+    gross = gross.groupby(['hazard', 'scenario', 'loss_event', 'country_isocode']).sum()[['gross_loss', 'net_loss']].sort_index()
     return gross['net_loss']
 
 
