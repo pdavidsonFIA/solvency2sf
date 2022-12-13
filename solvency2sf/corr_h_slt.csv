@@ -1,0 +1,7 @@
+corr_h_slt,mortality,longevity,morbidity,expense,revision,lapse
+mortality,1.00,0.25,0.25,0.25,0.00,0.00
+longevity,0.25,1.00,0.00,0.25,0.25,0.25
+morbidity,0.25,0.00,1.00,0.50,0.00,0.00
+expense,0.25,0.25,0.50,1.00,0.50,0.50
+revision,0.00,0.25,0.00,0.50,1.00,0.00
+lapse,0.00,0.25,0.00,0.50,0.00,1.00
