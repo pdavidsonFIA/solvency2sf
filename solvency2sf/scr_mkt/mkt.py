@@ -68,8 +68,9 @@ def f_up(cc_step: int, duration: int, type: str = 'bonds') -> float:
     """
     if type == 'bonds':
         # Duration index 0-5
-        dur_index = min(duration // 5, 4)
+        dur_index = int(min(duration // 5, 4))
         duration_adjustment = dur_index * 5
+        print(dur_index)
         # Row is duration, column is cc_step
         alpha = np.array([
             [0., 0., 0., 0., 0., 0., 0., 0.],
@@ -83,15 +84,16 @@ def f_up(cc_step: int, duration: int, type: str = 'bonds') -> float:
             [0.005, 0.005, 0.005, 0.01, 0.018, 0.005, 0.005, 0.012],
             [0.005, 0.005, 0.005, 0.01, 0.005, 0.005, 0.005, 0.0116],
             [0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005]])
+        print(alpha[dur_index][cc_step])
         f = alpha[dur_index][cc_step] + beta[dur_index][cc_step] * (duration - duration_adjustment)
     elif type == 'ri_no_mcr':
-        dur_index = min(duration // 5, 4)
+        dur_index = int(min(duration // 5, 4))
         duration_adjustment = dur_index * 5
         alpha = np.array([0., 0.375, 0.585, 0.61, 0.635])
         beta = np.array([0.075, 0.042, 0.005, 0.005, 0.005])
         f = alpha[dur_index] + beta[dur_index] * (duration - duration_adjustment)
     elif type == 'ri_no_mcr':
-        dur_index = min(duration // 5, 1)
+        dur_index = int(min(duration // 5, 1))
         duration_adjustment = dur_index * 5
         # Row is duration, column is cc_step
         alpha = np.array([
@@ -104,7 +106,7 @@ def f_up(cc_step: int, duration: int, type: str = 'bonds') -> float:
     elif type == 'gov_eea':
         f = 0.
     elif type == 'gov_non_eea':
-        dur_index = min(duration // 5, 1)
+        dur_index = int(min(duration // 5, 1))
         duration_adjustment = dur_index * 5
         alpha = np.array([
             [0., 0., 0., 0., 0., 0., 0., 0.],
@@ -122,7 +124,7 @@ def f_up(cc_step: int, duration: int, type: str = 'bonds') -> float:
     elif type == 'sec_type1':
         beta = np.array([0.021, 0.042, 0.074, 0.085])
         f = beta[cc_step] * duration
-    elif type == 'sec_type1':
+    elif type == 'sec_type2':
         beta = np.array([0.125, 0.134, 0.166, 0.197, 0.82, 1., 1.])
         f = beta[cc_step] * duration
     elif type == 'resec':
