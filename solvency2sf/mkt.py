@@ -27,7 +27,7 @@ def equity(equities: pd.DataFrame, symmetric_adjustment: float) -> pd.DataFrame:
     """
     Shock = alpha + beta * symmetric_adjustment
 
-    :param equities:
+    :param equities:: data frame with columns mv, exposure_type
     :param symmetric_adjustment:
     :return:
     """
@@ -53,7 +53,7 @@ def concentration(asset_list: pd.DataFrame) -> float:
     """
     asset_list should be a pd.Dataframe with columns:
     - mv: market value
-    - type:
+    - exposure_type:
     - cc_step: 0-6 & 7 is unrated
 
     asset_list = pd.DataFrame([[10.   , 1   , 2],
@@ -66,7 +66,7 @@ def concentration(asset_list: pd.DataFrame) -> float:
     # Total amount of assets considered in this module:
     assets_xl = asset_list.mv.sum()
 
-    asset_list['gi'] = asset_list.apply(lambda x: gi(x.cc_step, exposure_type=x.type), axis=1)
+    asset_list['gi'] = asset_list.apply(lambda x: gi(x.cc_step, exposure_type=x.exposure_type), axis=1)
 
     # Credit quality step 7 is unrated
     credit_threshold = [0.03, 0.03, 0.03, 0.015, 0.015, 0.015, 0.015, 0.015]
