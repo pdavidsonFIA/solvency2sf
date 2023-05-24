@@ -1,5 +1,5 @@
 import unittest
-from solvency2sf.scr_mkt.mkt import f_up
+from solvency2sf.mkt import f_up
 
 
 class TestFUpFunction(unittest.TestCase):
