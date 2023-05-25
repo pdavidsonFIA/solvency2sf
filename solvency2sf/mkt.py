@@ -77,24 +77,24 @@ def concentration(asset_list: pd.DataFrame) -> float:
     asset_list.mv = asset_list.mv.fillna(0.)
     asset_list["xs_exposure"] = asset_list.apply(lambda x: max(0., x.mv / assets_xl - x.ct), axis=1)
 
-    asset_list['Conc'] = asset_list.xs_exposure * asset_list.gi * asset_list.assets_xl
+    asset_list['Conc'] = asset_list.xs_exposure * asset_list.gi * assets_xl
     mkt_conc = np.square(asset_list.Conc).sum() ** 0.5
 
     return mkt_conc
 
 
 def gi(cc_step: int, exposure_type: str) -> float:
-    if type == 'ri_mcr':
+    if exposure_type == 'ri_mcr':
         # cc step mapping should  translate to solvency ratios
         gi_table = [0.12, 0.21, 0.27, 0.645, 0.73]
         return gi_table[min(4, cc_step)]
-    if type == 'unrated_credit_financial':
+    if exposure_type == 'unrated_credit_financial':
         return 0.645
-    if type == 'single_property':
+    if exposure_type == 'single_property':
         return 0.12
-    if type == 'gov_eea':
+    if exposure_type == 'gov_eea':
         return 0.
-    if type == 'gov_non_eea':
+    if exposure_type == 'gov_non_eea':
         gi_table = [0., 0., 0.12, 0.21, 0.27, 0.73, 0.73, 0.73]
         return gi_table[cc_step]
     else:
@@ -107,7 +107,7 @@ def spread(bonds=None, securities=None, credit_derivatives=None) -> float:
     Each item should be a pd.DataFrame with columns: mv, cc_step, duration
     """
     if bonds is not None:
-        bonds['f_up'] = bonds.apply(lambda x: f_up(x.cc_step, x.duration, exposure_type=x.type), axis=1)
+        bonds['f_up'] = bonds.apply(lambda x: f_up(x.cc_step, x.duration, exposure_type=x.exposure_type), axis=1)
         bonds['delta_bof'] = bonds.mv * bonds.f_up
         mkt_spread_bonds = max(0., bonds.delta_bof.sum())
     else:
@@ -142,7 +142,7 @@ def f_up(cc_step: int, duration: int, exposure_type: str = 'bonds') -> float:
         # Duration index 0-5
         dur_index = int(min(duration // 5, 4))
         duration_adjustment = dur_index * 5
-        print(dur_index)
+        # print(dur_index)
         # Row is duration, column is cc_step
         alpha = np.array([
             [0., 0., 0., 0., 0., 0., 0., 0.],
@@ -156,7 +156,7 @@ def f_up(cc_step: int, duration: int, exposure_type: str = 'bonds') -> float:
             [0.005, 0.005, 0.005, 0.01, 0.018, 0.005, 0.005, 0.012],
             [0.005, 0.005, 0.005, 0.01, 0.005, 0.005, 0.005, 0.0116],
             [0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005]])
-        print(alpha[dur_index][cc_step])
+        # print(alpha[dur_index][cc_step])
         f = alpha[dur_index][cc_step] + beta[dur_index][cc_step] * (duration - duration_adjustment)
     elif exposure_type == 'ri_no_mcr':
         dur_index = int(min(duration // 5, 4))
