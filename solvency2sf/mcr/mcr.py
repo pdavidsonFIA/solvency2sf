@@ -84,7 +84,7 @@ def mcr(
      """
 
     # Basic MCR parameters:
-    amcr = 3700000
+    amcr = 4000000
     ewi_l = 3
     ewi_nl = 1.75
     bound_floor = 0.25
